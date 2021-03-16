@@ -7,27 +7,47 @@
 USERNAME=""
 PASSWORD=""
 
-PID=""
+PID=$(pidof openconnect) 
+
+usage() {
+	echo
+	echo "USAGE: sudo cpvpn start|status|stop"
+	echo
+}
+
 
 connect() {
-		echo -n "Started connection to Cal Poly VPN..."
-		echo
-		nohup openconnect --protocol=gp cpvpn.calpoly.edu --user=$USERNAME  --background --passwd-on-stdin <<< $PASSWORD > /dev/null & 
-		echo
-		echo -n "Connected!"
-		echo
+		if [[ $PID == "" ]]; then
+			echo -n "Started connection to Cal Poly VPN..."
+			echo
+			nohup openconnect --protocol=gp cpvpn.calpoly.edu --user=$USERNAME  --background --passwd-on-stdin <<< $PASSWORD > /dev/null & 
+			echo
+			echo -n "Connected!"
+			echo
+		else
+			echo -n "Cal Poly VPN is already running "
+			usage
+		fi
 	}
 disconnect() {
-		echo -n "Disconnecting ..."
-		echo
-		killall -SIGINT openconnect
-		echo
-		echo -n "Disconnected! Have a nice day!"
+		if [[ $PID != "" ]]; then
+			echo -n "Disconnecting ..."
+			echo
+			killall -SIGINT openconnect
+			killall -SIGINT openconnect
+			kill $PID
+			echo
+			echo -n "Disconnected! Have a nice day!"
+		else
+			echo -n "Cal Poly VPN is not running"
+			usage
+		fi
 	}
+
 status_of_connection() {
-		PID= pidof openconnect
-		if [[ -f $PID ]]; then
-			echo "Cal Poly VPN is running!"
+#PID=$(pidof openconnect) 
+		if [[ $PID != "" ]]; then
+			echo "Cal Poly VPN is running! on PID - ${PID}"
 		else
 			echo "Cal Poly VPN is not running!"
 		fi
@@ -35,7 +55,7 @@ status_of_connection() {
 
 if [[ $EUID != 0 ]]; then
 	echo "Only run this script as a sudo user"
-	echo "USAGE: sudo cpvpn start|stop"
+	usage
 	exit 1
 else
 	if [[ $USERNAME == "" || $PASSWORD == "" ]]; then
