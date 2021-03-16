@@ -20,9 +20,14 @@ connect() {
 		if [[ $PID == "" ]]; then
 			echo -n "Started connection to Cal Poly VPN..."
 			echo
-			nohup openconnect --protocol=gp cpvpn.calpoly.edu --user=$USERNAME  --background --passwd-on-stdin <<< $PASSWORD > /dev/null & 
+#Remove nohup to see the output for debugging 
+			nohup openconnect --protocol=gp cpvpn.calpoly.edu --user=$USERNAME --quiet --background --passwd-on-stdin <<< $PASSWORD > /dev/null & 
+			PID=$!
+			sleep 1
 			echo
-			echo -n "Connected!"
+			wait $PID 
+			sleep 5
+			echo -n "Connected! with status $?"
 			echo
 		else
 			echo -n "Cal Poly VPN is already running "
@@ -30,12 +35,15 @@ connect() {
 		fi
 	}
 disconnect() {
+# Killing is a bit messy since there's some hurdles when dealing with repeated stopping
 		if [[ $PID != "" ]]; then
 			echo -n "Disconnecting ..."
 			echo
 			killall -SIGINT openconnect
-			killall -SIGINT openconnect
-			kill $PID
+			PID=$(pidof openconnect) 
+			kill -2 $PID
+			PID=$(pidof openconnect) 
+			kill -2 $PID
 			echo
 			echo -n "Disconnected! Have a nice day!"
 		else
@@ -45,7 +53,6 @@ disconnect() {
 	}
 
 status_of_connection() {
-#PID=$(pidof openconnect) 
 		if [[ $PID != "" ]]; then
 			echo "Cal Poly VPN is running! on PID - ${PID}"
 		else
@@ -73,7 +80,7 @@ else
 			disconnect
 			;;
 		*)
-			echo "USAGE: sudo cpvpn start|stop"
+			usage
 			exit 3
 			;;
 	esac
