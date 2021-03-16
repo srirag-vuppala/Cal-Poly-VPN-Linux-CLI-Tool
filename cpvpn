@@ -29,6 +29,10 @@ if [[ $EUID != 0 ]]; then
 	echo "USAGE: sudo cpvpn start|stop"
 	exit 1
 else
+	if [[ $USERNAME == "" || $PASSWORD == "" ]]; then
+		echo "Add in the Username and Password in the script"
+		exit 2
+	fi
 	case "$1" in
 		start)
 			connect
@@ -38,7 +42,7 @@ else
 			;;
 		*)
 			echo "USAGE: sudo cpvpn start|stop"
-			exit 2
+			exit 3
 			;;
 	esac
 
