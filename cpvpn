@@ -4,8 +4,10 @@
 # ----------------------------------------------------------------------------  
 
 #Enter in your Cal Poly Username and Password here
-USERNAME=""
-PASSWORD=""
+USERNAME="***REMOVED***"
+PASSWORD="***REMOVED***"
+
+PID=""
 
 connect() {
 		echo -n "Started connection to Cal Poly VPN..."
@@ -22,7 +24,14 @@ disconnect() {
 		echo
 		echo -n "Disconnected! Have a nice day!"
 	}
-
+status_of_connection() {
+		PID= pidof openconnect
+		if [[ -f $PID ]]; then
+			echo "Cal Poly VPN is running!"
+		else
+			echo "Cal Poly VPN is not running!"
+		fi
+	}
 
 if [[ $EUID != 0 ]]; then
 	echo "Only run this script as a sudo user"
@@ -36,6 +45,9 @@ else
 	case "$1" in
 		start)
 			connect
+			;;
+		status)
+			status_of_connection
 			;;
 		stop)
 			disconnect

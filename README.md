@@ -1,18 +1,16 @@
-
 # Cal Poly VPN Linux CLI tool
 
 A simple and easy way to connect to the Cal Poly VPN.
 
 ## Description
 
-Unfortunately there is ~~minimal~~ **NO** support for the Cal Poly's VPN for linux users so I wrote a simple script that'll be able to start and stop the VPN. 
+Unfortunately there is ~~minimal~~ **NO** support for the Cal Poly's VPN for linux users so I wrote a simple script that'll be able to start, stop and check the status of the VPN. 
 * Additionally it'll work without having to give it my credentials every single time.
 
 ## Getting Started
 
 ### Installing
-* Download the shell script from this repository 
-* Enter in your cal poly user name and password in the starting of the file
+* Download the shell script from this repository * Enter in your cal poly user name and password in the starting of the file
 
 ```
 ...
@@ -36,6 +34,10 @@ This script must be run as a sudo user
 ```
 sudo cpvpn start
 ```
+* To check status of VPN 
+```
+sudo cpvpn status 
+```
 * To stop
 ```
 sudo cpvpn stop
@@ -52,6 +54,8 @@ On the offchance that stopping it doesn't work try turning off your wifi and tur
 
 * 0.1
     * Initial Release
+* 0.2
+    * Added status checker
 
 ## License
 
