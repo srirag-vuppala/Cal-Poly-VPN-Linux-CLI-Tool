@@ -5,8 +5,8 @@ A simple and easy way to connect to the Cal Poly VPN.
 
 ## Description
 
-There is ~~minimal~~ **NO** support for the Cal Poly's VPN for linux users so I wrote a simple script that'll be able to start and stop the VPN. 
-* Additionally it'll work without having to give it my credentials each and every single time.
+Unfortunately there is ~~minimal~~ **NO** support for the Cal Poly's VPN for linux users so I wrote a simple script that'll be able to start and stop the VPN. 
+* Additionally it'll work without having to give it my credentials every single time.
 
 ## Getting Started
 
