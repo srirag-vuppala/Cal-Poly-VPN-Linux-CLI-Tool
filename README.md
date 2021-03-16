@@ -10,7 +10,8 @@ Unfortunately there is ~~minimal~~ **NO** support for the Cal Poly's VPN for lin
 ## Getting Started
 
 ### Installing
-* Download the shell script from this repository * Enter in your cal poly user name and password in the starting of the file
+* Download the shell script from this repository 
+* Enter in your cal poly user name and password in the starting of the file
 
 ```
 ...
